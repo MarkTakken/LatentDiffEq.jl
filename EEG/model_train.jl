@@ -101,6 +101,11 @@ function train(model_name, system; kws...)
     # 97 => epochs (1 second chunk of data) 
 
     data_norm, min_val, max_val = NormalizeToUnitSegment(EC)
+    data_norm = Float32.(data_norm)
+
+    # take normalization to range [-1;1]
+    data_norm = (data_norm .- 0.5f0)*2.0f0
+
     full_seq_len, input_dim, observations = size(data_norm)
 
     # for visualization reshaping

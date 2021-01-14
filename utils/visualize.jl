@@ -164,12 +164,18 @@ end
 function visualize_val_image(model, val_set, t_val, h, w, color_scheme)
     j = rand(1:size(val_set,3))
     X_test = val_set[:,:,j]
-    frames_test = [get.(Ref(color_scheme), reshape(x,h,w)) for x in eachcol(X_test)]
+
+    # go back to 0-1 range
+    X_test2 = (X_test./2.0f0) .+ 0.5f0
+    frames_test = [get.(Ref(color_scheme), reshape(x,h,w)) for x in eachcol(X_test2)]
 
     x = Flux.unstack(X_test, 2)
 
     lat_var, pred_x, pred = model(x, t_val)
     pred_x = Flux.stack(pred_x, 2)
+
+    # go back to 0-1 range
+    pred_x = (pred_x./2.0f0) .+ 0.5f0
 
     frames_pred = [get.(Ref(color_scheme), reshape(x,h,w)) for x in eachcol(pred_x)]
 

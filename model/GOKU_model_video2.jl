@@ -108,7 +108,8 @@ struct GOKU_decoder <: AbstractDecoder
         l1 = Dense(ode_dim, hidden_dim1, relu)
         l2 = Dense(hidden_dim1, hidden_dim1, relu)
         l3 = Dense(hidden_dim1, hidden_dim1, relu)
-        l4 = Dense(hidden_dim1, input_dim, σ)
+        # l4 = Dense(hidden_dim1, input_dim, σ)
+        l4 = Dense(hidden_dim1, input_dim, tanh)
 
         gen_linear = Chain(l1,
                         SkipConnection(l2, +),
